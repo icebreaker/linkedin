@@ -13,6 +13,17 @@ module LinkedIn
         simple_query(path, options)
       end
 
+      def group_memberships(options={})
+        path = "#{person_path(options)}/group-memberships"
+
+        if options[:start] and options[:count]
+          path += "?count=#{options[:count]}"
+          path += "&start=#{options[:start]}"
+        end
+
+        simple_query(path, options)
+      end
+
       def network_updates(options={})
         path = "#{person_path(options)}/network/updates"
         simple_query(path, options)
