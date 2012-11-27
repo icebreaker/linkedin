@@ -12,7 +12,11 @@ module LinkedIn
       def add_post_to_group(group_id, post)
         path = "/groups/#{group_id}/posts"
         defaults = {}
-        post(path, defaults.merge(post).to_json, "Content-Type" => "application/json")
+        response = post(path, defaults.merge(post).to_json, "Content-Type" => "application/json")
+        last_post = get("/groups/#{group_id}/posts?count=1&order=recency")
+        id = JSON.parse(last_post)["values"][0]["id"]
+        response.instance_variable_set(:@id, id)
+        response
       end
 
       # def share(options={})
