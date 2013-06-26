@@ -13,9 +13,16 @@ module LinkedIn
         path = "/groups/#{group_id}/posts"
         defaults = {}
         response = post(path, defaults.merge(post).to_json, "Content-Type" => "application/json")
+
         last_post = get("/groups/#{group_id}/posts?count=1&order=recency")
-        id = JSON.parse(last_post)["values"][0]["id"]
-        response.instance_variable_set(:@id, id)
+        if last_post
+          data = JSON.parse(last_post)
+          if data["values"].is_a? Array and data["values"].size > 0 and data["values"][0].is_a? Hash
+            id =["values"][0]["id"]
+            response.instance_variable_set(:@id, id) if id
+          end
+        end
+
         response
       end
 
