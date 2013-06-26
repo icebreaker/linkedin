@@ -18,8 +18,7 @@ module LinkedIn
         if last_post
           data = JSON.parse(last_post)
           if data["values"].is_a? Array and data["values"].size > 0 and data["values"][0].is_a? Hash
-            id =["values"][0]["id"]
-            response.instance_variable_set(:@id, id) if id
+            response.instance_variable_set(:@id, data["values"][0]["id"])
           end
         end
 
